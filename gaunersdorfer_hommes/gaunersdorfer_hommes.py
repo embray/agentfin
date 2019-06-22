@@ -42,8 +42,8 @@ chaos = 0
 # we will make them global "constants", which in Python are typically written
 # in ALL_CAPS to distinguish that they are "constant" (of course the Python
 # language does not actually prohibit us from changing them).
-A_SIG = 1
-Y_BAR = 1
+A_SIG = 1.0
+Y_BAR = 1.0
 
 if chaos == 1:
     T = 500
