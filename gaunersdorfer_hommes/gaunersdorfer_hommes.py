@@ -28,14 +28,27 @@ T = 10000     #Time Horizon
 
 chaos = 0
 
-# a*sigma(risk aversion * variance)
-asig = 1
-ybar = 1
+# α*σ (risk aversion * variance)
+# Note: Because Python 3 supports most unicode characters in variable names we
+# could actually name this variable:
+#
+# ασ = 1
+#
+# Though it would probably be less convenient to type.  Similarly with ȳ = 1.
+#
+# For use in this simulation, these values are assumed constant 1, and won't
+# generally change.  If there is a reason to change them we could make them
+# additional paramters of the simulation, but for the purpose of demonstration
+# we will make them global "constants", which in Python are typically written
+# in ALL_CAPS to distinguish that they are "constant" (of course the Python
+# language does not actually prohibit us from changing them).
+A_SIG = 1
+Y_BAR = 1
 
 if chaos == 1:
     T = 500
     r = 0.01
-    pstar = ybar/r
+    pstar = Y_BAR/r
     beta = 4
     v = 0.3
     # g == 2.00 # fixed point
@@ -52,7 +65,7 @@ if chaos == 1:
     startx = 0.01
 else:
     r = 0.001
-    pstar = ybar/r
+    pstar = Y_BAR/r
     beta = 2
     v = 1
     g = 1.9
@@ -97,8 +110,8 @@ for t in range(4,T):
     # u1(t) = -0.5*(x(t-1)-v*x(t-3))^2;
     # u2(t) = -0.5*(x(t-1) - x(t-3) - g*(x(t-3)-x(t-4)))^2;
     # detaled one period profits using last period holdings
-    pi1 = R[t-1]* z1[t-2] - riskAdjust * 0.5 * asig * z1[t-2]**2
-    pi2 = R[t-1]* z2[t-2] - riskAdjust * 0.5 * asig * z2[t-2]**2
+    pi1 = R[t-1]* z1[t-2] - riskAdjust * 0.5 * A_SIG * z1[t-2]**2
+    pi2 = R[t-1]* z2[t-2] - riskAdjust * 0.5 * A_SIG * z2[t-2]**2
     # accumulated fitness
     u1[t-1] = pi1 + eta * u1[t-2]
     u2[t-1] = pi2 + eta * u2[t-2]
@@ -122,14 +135,14 @@ for t in range(4,T):
     # R[t-1] = p[t+1] - pstar - (1+r)*(p[t]-pstar) + dstd*np.randn(1)
     R[t] = x[t] - x[t-1]
     # portfolio decisions
-    z1[t] = ( exp1 - x[t])/asig
-    z2[t] = ( exp2 - x[t])/asig
+    z1[t] = ( exp1 - x[t])/A_SIG
+    z2[t] = ( exp2 - x[t])/A_SIG
 
 # log return
 lret = np.log(p[1:T]) - np.log(p[0:T-1])
 # arithmetic return
 ret = p[1:T] / p[0:T-1]-1
-ghret = p[1:T] - ybar - (1+r) * p[0:T-1]
+ghret = p[1:T] - Y_BAR - (1+r) * p[0:T-1]
 
 
 # plot price
