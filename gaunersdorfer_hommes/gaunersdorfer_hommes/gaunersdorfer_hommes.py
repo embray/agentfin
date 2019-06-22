@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-from plotting import plot_price, plot_returns
 
 # A Nonlinear Structural Model for Volatility Clustering
 # This program is designed to duplicate the results found by
@@ -201,9 +200,3 @@ def gaunersdorfer_hommes(chaos=False, **kwargs):
     # with many inputs, and many non-trivial outputs:
     # https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.least_squares.html#scipy.optimize.least_squares
     return p, lret, ret, ghret
-
-
-p, lret, ret, ghret = gaunersdorfer_hommes()
-
-plot_price(p)
-plot_returns(lret)
