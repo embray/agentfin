@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-import matplotlib.pyplot as plt
-import time
+from plotting import plot_price, plot_returns
 
 # A Nonlinear Structural Model for Volatility Clustering
 # This program is designed to duplicate the results found by
@@ -206,17 +205,5 @@ def gaunersdorfer_hommes(chaos=False, **kwargs):
 
 p, lret, ret, ghret = gaunersdorfer_hommes()
 
-
-# plot price
-fig_p, ax_p = plt.subplots()
-ax_p.plot(np.arange(len(p)), p)
-plt.xlabel('Time')
-plt.ylabel('Price')
-plt.show()
-
-# plot returns
-fig_r, ax_r = plt.subplots()
-ax_r.plot(np.arange(len(lret)), lret)
-plt.xlabel('Time')
-plt.ylabel('Returns')
-plt.show()
+plot_price(p)
+plot_returns(lret)
