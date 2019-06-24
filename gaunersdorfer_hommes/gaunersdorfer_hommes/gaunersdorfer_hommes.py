@@ -1,35 +1,44 @@
 # -*- coding: utf-8 -*-
 
+"""
+A Nonlinear Structural Model for Volatility Clustering This program is designed
+to duplicate the results found by Andrea Gaunersdorfer & Cars Hommes
+`cite:GH2007`.
+
+It also builds off the earlier results from Gaunersdorfer, Hommes, Wagener,
+Journal of Economic Behavior and Organization, Vol 67, 27-47: 2008
+`cite:GHW2008`.
+
+* Type 1 agents hold fundamentalist beliefs
+* Type 2 agents are trend followers
+
+.. math::
+
+    E_{1,t}[p_{t+1}] = p^* + v(p_{t-1} - p^*)
+    E_{2,t}[p_{t+1}] = p_{t-1} + g(p_{t-1} - p_{t-2})
+"""
+
 import numpy as np
 
-# A Nonlinear Structural Model for Volatility Clustering
-# This program is designed to duplicate the results found by
-# Andrea Gaunersdorfer & Cars Hommes
-# It also builds off the earlier results from
-# Gaunersdorfer, Hommes, Wagener, Journal of Economic Behavior and
-# Organization, Vol 67, 27-47: 2008
 
-# Type 1 agents hold fundamentalist beliefs
-# Type 2 agents are trend followers
-# E1t[pt+1] = p* + v(pt-1 - p*)
-# E2t[pt+1] = pt-1 + g(pt-1 - pt-2)
-
-
-# α*σ (risk aversion * variance)
-# Note: Because Python 3 supports most unicode characters in variable names we
-# could actually name this variable:
-#
-# ασ = 1
-#
-# Though it would probably be less convenient to type.  Similarly with ȳ = 1.
-#
-# For use in this simulation, these values are assumed constant 1, and won't
-# generally change.  If there is a reason to change them we could make them
-# additional paramters of the simulation, but for the purpose of demonstration
-# we will make them global "constants", which in Python are typically written
-# in ALL_CAPS to distinguish that they are "constant" (of course the Python
-# language does not actually prohibit us from changing them).
 A_SIG = 1.0
+"""
+α*σ (risk aversion * variance)
+
+..note::
+
+    Because Python 3 supports most unicode characters in variable names we
+    could actually name this variable: ``ασ = 1``.  Though it would probably be
+    less convenient to type.  Similarly with ``ȳ = 1``.
+
+For use in this simulation, these values are assumed constant 1.0, and won't
+generally change.  If there is a reason to change them we could make them
+additional paramters of the simulation, but for the purpose of demonstration we
+will make them global "constants", which in Python are typically written in
+``ALL_CAPS`` to distinguish that they are "constant" (of course the Python
+language does not actually prohibit us from changing them).
+"""
+
 Y_BAR = 1.0
 
 
@@ -80,13 +89,28 @@ def gaunersdorfer_hommes(chaos=False, **kwargs):
     For GH model with limit cycle and realistic price dynamics set
     ``chaos=False``.
 
-    The model is written with the dynamics in terms of deviations
-    from the constant fundamental given by pbar
-    as x(t) = p(t)-pbar
-    this is both a little simpler, and turns out to be a better
-    thing to do numerically.  See notes for some details.
+    The model is written with the dynamics in terms of deviations from the
+    constant fundamental given by :math:`p^*` (represented in the code by the
+    variable ``p_star``) as
 
-    T = Time Horizon
+    .. math::
+
+        x_t = p_t - p^*
+
+    this is both a little simpler, and turns out to be a better thing to do
+    numerically.  See notes for some details.
+
+    Parameters
+    ----------
+
+    chaos : bool, optional
+        If ``chaos=True`` (default ``False``) set the default parameters for a
+        model with low-D chaos.
+    T : int, optional
+        Time horizon of the simulation.  With ``chaos=False`` the default is
+        ``T=10000``.
+
+    ...
     """
 
     if chaos:
