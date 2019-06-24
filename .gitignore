@@ -1,0 +1,15 @@
+# Editor files
+*.sw[op]
+
+
+# Python files
+*.pyc
+__pycache__
+.ipynb_checkpoints
+*.dist-info
+*.egg-info
+
+
+# Generated files
+prices.png
+returns.png
