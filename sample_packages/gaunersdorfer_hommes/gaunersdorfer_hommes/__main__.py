@@ -1,4 +1,4 @@
-from .run import run
+from .example import run
 
 
 # TODO: As an exercise to the reader, try implementing command-line arguments
