@@ -1,4 +1,6 @@
 /*.png
 /*.py
+/setup.py
+/setup.cfg
 mymodels
 examples
